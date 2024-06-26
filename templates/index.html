@@ -109,13 +109,16 @@
         <ul>
             {% for car in cars_tearapart %}
             <li>
-                <strong>Stock Number:</strong> {{ car.stock_num }}<br>
                 <strong>Year:</strong> {{ car.year }}<br>
                 <strong>Model:</strong> {{ car.model }}<br>
-                <strong>Date:</strong> {{ car.date }}<br>
                 {% if car.series %}
                 <strong>Series:</strong> {{ car.series }}<br>
                 {% endif %}
+                <strong>Color:</strong> {{ car.color }}<br>
+                <strong>Row:</strong> {{ car.row }}<br>
+                <strong>Date:</strong> {{ car.date }}<br>
+                <strong>Stock Number:</strong> {{ car.stock_num }}<br>
+                <strong>VIN:</strong> {{ car.vin }}<br>
                 <object data="{{ car.image }}" type="image/png" onclick="showImage('{{ car.image }}')"></object>
             </li>
             {% endfor %}
@@ -128,6 +131,7 @@
                 <strong>Stock Number:</strong> {{ car.stock_num }}<br>
                 <strong>Year:</strong> {{ car.year }}<br>
                 <strong>Model:</strong> {{ car.model }}<br>
+                <strong>Row:</strong> {{ car.row }}<br>
                 <strong>Date:</strong> {{ car.date }}<br>
                 <object data="{{ car.image }}" type="image/png" onclick="showImage('{{ car.image }}')"></object>
             </li>
