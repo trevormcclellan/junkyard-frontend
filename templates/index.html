@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Inventory</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='safari-pinned-tab.svg') }}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f3f3f3;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+
+        li object {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px auto;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .close {
+            color: #ddd;
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            font-size: 30px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Car Inventory</h1>
+
+        <h2>Tear A Part Inventory</h2>
+        <ul>
+            {% for car in cars_tearapart %}
+            <li>
+                <strong>Stock Number:</strong> {{ car.stock_num }}<br>
+                <strong>Year:</strong> {{ car.year }}<br>
+                <strong>Model:</strong> {{ car.model }}<br>
+                <strong>Date:</strong> {{ car.date }}<br>
+                {% if car.series %}
+                <strong>Series:</strong> {{ car.series }}<br>
+                {% endif %}
+                <object data="{{ car.image }}" type="image/png" onclick="showImage('{{ car.image }}')"></object>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <h2>UTPAP Inventory</h2>
+        <ul>
+            {% for car in cars_utpap %}
+            <li>
+                <strong>Stock Number:</strong> {{ car.stock_num }}<br>
+                <strong>Year:</strong> {{ car.year }}<br>
+                <strong>Model:</strong> {{ car.model }}<br>
+                <strong>Date:</strong> {{ car.date }}<br>
+                <object data="{{ car.image }}" type="image/png" onclick="showImage('{{ car.image }}')"></object>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Modal for full-size image display -->
+    <div id="myModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="fullSizeImg">
+    </div>
+
+    <!-- JavaScript to control modal display -->
+    <script>
+        function showImage(imageUrl) {
+            var modal = document.getElementById('myModal');
+            var img = document.getElementById('fullSizeImg');
+            img.src = imageUrl;
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            var modal = document.getElementById('myModal');
+            modal.style.display = "none";
+        }
+        // Function to check if the image URL is valid
+        function is_valid_image(url) {
+            var imgObj = new Image();
+            imgObj.src = url;
+            return imgObj.complete && imgObj.naturalWidth !== 0;
+        }
+    </script>
+</body>
+</html>
