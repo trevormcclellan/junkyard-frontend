@@ -109,6 +109,7 @@
         <ul>
             {% for car in cars_tearapart %}
             <li>
+                <strong>Location:</strong> {{ car.location }}<br>
                 <strong>Year:</strong> {{ car.year }}<br>
                 <strong>Model:</strong> {{ car.model }}<br>
                 {% if car.series %}
@@ -129,6 +130,7 @@
         <ul>
             {% for car in cars_utpap %}
             <li>
+                <strong>Location:</strong> {{ car.location }}<br>
                 <strong>Stock Number:</strong> {{ car.stock_num }}<br>
                 <strong>Year:</strong> {{ car.year }}<br>
                 <strong>Model:</strong> {{ car.model }}<br>
