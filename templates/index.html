@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,6 +63,21 @@
             cursor: pointer;
         }
 
+        /* Styles for tiled images */
+        .image-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .image-grid object {
+            width: 200px;
+            height: 200px;
+            display: block;
+            cursor: pointer;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -99,8 +115,31 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+                /* Responsive styling for the modal image */
+                img.modal-content {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Use -webkit-fill-available for portrait mode */
+        @media (orientation: portrait) {
+            img.modal-content {
+                width: -webkit-fill-available;
+                height: auto;
+            }
+        }
+
+        /* Use -webkit-fill-available for landscape mode */
+        @media (orientation: landscape) {
+            img.modal-content {
+                height: -webkit-fill-available;
+                width: auto;
+            }
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Car Inventory</h1>
@@ -139,6 +178,31 @@
                 <strong>Row:</strong> {{ car.row }}<br>
                 <strong>Date:</strong> {{ car.date }}<br>
                 <object data="{{ car.image }}" type="image/png" onclick="showImage('{{ car.image }}')"></object>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <h2>Pull-n-Save Inventory</h2>
+        <ul>
+            {% for car in cars_pullnsave %}
+            <li>
+                <strong>Location:</strong> {{ car.location }}<br>
+                <strong>Year:</strong> {{ car.year }}<br>
+                <strong>Model:</strong> {{ car.model }}<br>
+                {% if car.series %}
+                <strong>Series:</strong> {{ car.series }}<br>
+                {% endif %}
+                <strong>Color:</strong> {{ car.color }}<br>
+                <strong>Row:</strong> {{ car.row }}<br>
+                <strong>Date:</strong> {{ car.date }}<br>
+                <strong>Stock Number:</strong> {{ car.stock_num }}<br>
+                <strong>VIN:</strong> {{ car.vin }}<br>
+                <!-- Display multiple images -->
+                <div class="image-grid">
+                    {% for i in range(1, 5) %}
+                    <object data="https://app.pullnsaveapp.com/v1/Vehicles/Images/StockId/{{ car.stock_num }}-{{ car.yard }}/OrderId/{{ i }}" type="image/png" onclick="showImage('https://app.pullnsaveapp.com/v1/Vehicles/Images/StockId/{{ car.stock_num }}-{{ car.yard }}/OrderId/{{ i }}')"></object>
+                    {% endfor %}
+                </div>
             </li>
             {% endfor %}
         </ul>
