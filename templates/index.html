@@ -26,7 +26,7 @@
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
@@ -88,7 +88,7 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0,0,0,0.9);
+            background-color: rgba(0, 0, 0, 0.9);
         }
 
         .modal-content {
@@ -116,8 +116,8 @@
             cursor: pointer;
         }
 
-                /* Responsive styling for the modal image */
-                img.modal-content {
+        /* Responsive styling for the modal image */
+        img.modal-content {
             width: 100%;
             height: auto;
         }
@@ -137,11 +137,37 @@
                 width: auto;
             }
         }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .nav-links a {
+            margin-right: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #28a745;
+            /* Bootstrap green color */
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #218838;
+            /* Darker green for hover effect */
+            text-decoration: underline;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
+        <div class="nav-links">
+            <a href="{{ url_for('junkyard_page', yard_name='tearapart') }}">Search Tear A Part</a>
+            <a href="{{ url_for('junkyard_page', yard_name='utpap') }}">Search UTPAP</a>
+            <a href="{{ url_for('junkyard_page', yard_name='pullnsave') }}">Search Pull-n-Save</a>
+        </div>
         <h1>Car Inventory</h1>
 
         <h2>Tear A Part Inventory</h2>
@@ -200,7 +226,10 @@
                 <!-- Display multiple images -->
                 <div class="image-grid">
                     {% for i in range(1, 5) %}
-                    <object data="https://app.pullnsaveapp.com/v1/Vehicles/Images/StockId/{{ car.stock_num }}-{{ car.yard }}/OrderId/{{ i }}" type="image/png" onclick="showImage('https://app.pullnsaveapp.com/v1/Vehicles/Images/StockId/{{ car.stock_num }}-{{ car.yard }}/OrderId/{{ i }}')"></object>
+                    <object
+                        data="https://app.pullnsaveapp.com/v1/Vehicles/Images/StockId/{{ car.stock_num }}-{{ car.yard }}/OrderId/{{ i }}"
+                        type="image/png"
+                        onclick="showImage('https://app.pullnsaveapp.com/v1/Vehicles/Images/StockId/{{ car.stock_num }}-{{ car.yard }}/OrderId/{{ i }}')"></object>
                     {% endfor %}
                 </div>
             </li>
@@ -235,4 +264,5 @@
         }
     </script>
 </body>
+
 </html>
