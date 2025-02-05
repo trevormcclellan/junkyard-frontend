@@ -393,6 +393,21 @@ def index():
     
     return render_template('index.html', cars_tearapart=cars_tearapart, cars_utpap=cars_utpap, cars_pullnsave=cars_pullnsave)
 
+@app.route('/api/images/pullnsave/<stock_num>/<yard>', methods=['GET'])
+def pullnsave_image(stock_num, yard):
+    # Return the number of images for the given stock number
+    url = f"https://app.pullnsaveapp.com/v1/Vehicles/Images/StockId/{stock_num}-{yard}/"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        count = len(data) if isinstance(data, list) else 0
+        return jsonify({"count": count})
+
+    else:
+        return jsonify({"error": "Failed to fetch images"}), 500
+        
+
+
 @app.route('/junkyard/<yard_name>', methods=['GET'])
 def junkyard_page(yard_name):
     makes = get_makes_from_api(yard_name)

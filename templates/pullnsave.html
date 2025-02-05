@@ -327,17 +327,8 @@
                 .then(data => {
                     var resultsList = document.getElementById('results-list');
                     resultsList.innerHTML = ''; // Clear current results
-                    data.results.forEach(function (result) {
+                    data.results.forEach(async function (result) {
                         var li = document.createElement('li');
-
-                        // Create the Location line
-                        var location = document.createElement('strong');
-                        location.textContent = 'Location:';
-                        var locationValue = document.createElement('span');
-                        locationValue.textContent = result.location;
-                        li.appendChild(location);
-                        li.appendChild(locationValue);
-                        li.appendChild(document.createElement('br'));
 
                         // Create the Year line
                         var year = document.createElement('strong');
@@ -416,12 +407,22 @@
                         // Add the images section
                         var imageGrid = document.createElement('div');
                         imageGrid.classList.add('image-grid');
-                        for (var i = 1; i <= 4; i++) {
-                            var objectTag = document.createElement('object');
-                            objectTag.data = `https://app.pullnsaveapp.com/v1/Vehicles/Images/StockId/${result.stock_num}-${result.yard}/OrderId/${i}`;
-                            objectTag.type = 'image/png';
-                            objectTag.setAttribute('onclick', `showImage('https://app.pullnsaveapp.com/v1/Vehicles/Images/StockId/${result.stock_num}-${result.yard}/OrderId/${i}')`);
-                            imageGrid.appendChild(objectTag);
+                        try {
+                            const response = await fetch(`/api/images/pullnsave/${result.stock_num}/${location}`);
+                            const respJson = await response.json();
+                            if (respJson.count) {
+                                const imageCount = respJson.count;
+                                for (let i = 1; i <= imageCount; i++) {
+                                    const imgUrl = `https://app.pullnsaveapp.com/v1/Vehicles/Images/StockId/${result.stock_num}-${location}/OrderId/${i}`;
+                                    const img = document.createElement('object');
+                                    img.data = imgUrl;
+                                    img.type = 'image/png';
+                                    img.onclick = () => showImage(imgUrl);
+                                    imageGrid.appendChild(img);
+                                }
+                            }
+                        } catch (error) {
+                            console.error("Error fetching image count:", error);
                         }
                         li.appendChild(imageGrid);
 
