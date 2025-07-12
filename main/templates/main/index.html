@@ -145,25 +145,87 @@
             }
         }
 
+        .nav-container {
+            max-width: 800px;
+            margin: 0 auto 20px;
+        }
+
+        .nav-toggle {
+            display: none;
+            background-color: #28a745;
+            color: white;
+            font-size: 1.2rem;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
         .nav-links {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
-            margin-bottom: 20px;
+            gap: 10px;
+            padding: 0px 30px;
         }
 
         .nav-links a {
-            margin-right: 20px;
-            text-decoration: none;
+            padding: 0px 10px;
+            font-size: 1.1rem;
             font-weight: bold;
+            text-decoration: none;
             color: #28a745;
-            transition: color 0.3s ease;
+            background-color: #e9f5ec;
+            border-radius: 8px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: background-color 0.2s, transform 0.2s;
+            max-width: none;
+            min-height: 80px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .nav-links a:hover {
-            color: #218838;
-            /* Darker green for hover effect */
-            text-decoration: underline;
+            background-color: #d4edda;
+            transform: scale(1.02);
+        }
+
+        /* Show toggle button and collapse menu on smaller screens */
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 14px 20px;
+                font-size: 1.1rem;
+                font-weight: bold;
+                text-decoration: none;
+                color: #28a745;
+                background-color: #e9f5ec;
+                border-radius: 8px;
+                width: 100%;
+                max-width: 400px;
+                min-height: auto;
+                text-align: center;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                transition: background-color 0.2s, transform 0.2s;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
         }
 
         input[type="checkbox"] {
@@ -175,13 +237,16 @@
 
 <body>
     <div class="container">
-        <div class="nav-links">
-            <a href="{{ url_for('main.junkyard_page', yard_name='lkq') }}">Search LKQ</a>
-            <a href="{{ url_for('main.junkyard_page', yard_name='picknpull') }}">Search Pick-n-Pull</a>
-            <a href="{{ url_for('main.junkyard_page', yard_name='pullapart') }}">Search Pull-A-Part</a>
-            <a href="{{ url_for('main.junkyard_page', yard_name='upullandsave') }}">Search U Pull & Save</a>
-            <a href="{{ url_for('main.junkyard_page', yard_name='jacks') }}">Search Jack's Used Auto Parts</a>
-        </div>
+        <div class="nav-container">
+            <button class="nav-toggle" onclick="toggleMenu()">☰ Menu</button>
+            <div class="nav-links" id="navLinks">
+                <a href="{{ url_for('main.junkyard_page', yard_name='lkq') }}">Search LKQ</a>
+                <a href="{{ url_for('main.junkyard_page', yard_name='picknpull') }}">Search Pick-n-Pull</a>
+                <a href="{{ url_for('main.junkyard_page', yard_name='pullapart') }}">Search Pull-A-Part</a>
+                <a href="{{ url_for('main.junkyard_page', yard_name='upullandsave') }}">Search U Pull & Save</a>
+                <a href="{{ url_for('main.junkyard_page', yard_name='jacks') }}">Search Jack's Used Auto Parts</a>
+            </div>
+        </div>        
         <h1>Car Inventory</h1>
         <div style="margin-bottom: 20px;">
             <label style="display: flex; align-items: center; gap: 10px; font-size: 0.8rem; color: #555;">
@@ -320,6 +385,11 @@
 
     <!-- JavaScript to control modal display -->
     <script>
+        function toggleMenu() {
+            var navLinks = document.getElementById("navLinks");
+            navLinks.classList.toggle("show");
+        }
+        
         function applyFilters() {
             const showAllMercedes = document.getElementById('showAllMercedes').checked;
             const showFarLocations = document.getElementById('showFarLocations').checked;
