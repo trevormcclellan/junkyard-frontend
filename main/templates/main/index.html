@@ -73,9 +73,12 @@
 
         .image-grid object {
             width: 200px;
-            height: 200px;
+            height: auto;
+            object-fit: contain;
             display: block;
             cursor: pointer;
+            border: 1px solid #ddd;
+            background-color: #fff;
         }
 
         .modal {
@@ -116,10 +119,14 @@
             cursor: pointer;
         }
 
-        /* Responsive styling for the modal image */
         img.modal-content {
-            width: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
             height: auto;
+            object-fit: contain;
+            margin: auto;
+            display: block;
         }
 
         /* Use -webkit-fill-available for portrait mode */
@@ -140,7 +147,8 @@
 
         .nav-links {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
             margin-bottom: 20px;
         }
 
@@ -149,7 +157,6 @@
             text-decoration: none;
             font-weight: bold;
             color: #28a745;
-            /* Bootstrap green color */
             transition: color 0.3s ease;
         }
 
@@ -158,11 +165,209 @@
             /* Darker green for hover effect */
             text-decoration: underline;
         }
+
+        input[type="checkbox"] {
+            transform: scale(1.0);
+            cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
-    Hi!
+    <div class="container">
+        <div class="nav-links">
+            <a href="{{ url_for('main.junkyard_page', yard_name='lkq') }}">Search LKQ</a>
+            <a href="{{ url_for('main.junkyard_page', yard_name='picknpull') }}">Search Pick-n-Pull</a>
+            <a href="{{ url_for('main.junkyard_page', yard_name='pullapart') }}">Search Pull-A-Part</a>
+            <a href="{{ url_for('main.junkyard_page', yard_name='upullandsave') }}">Search U Pull & Save</a>
+            <a href="{{ url_for('main.junkyard_page', yard_name='jacks') }}">Search Jack's Used Auto Parts</a>
+        </div>
+        <h1>Car Inventory</h1>
+        <div style="margin-bottom: 20px;">
+            <label style="display: flex; align-items: center; gap: 10px; font-size: 0.8rem; color: #555;">
+                <input type="checkbox" id="showAllMercedes" style="accent-color: #28a745;">
+                Show All Mercedes
+            </label>
+            <label style="display: flex; align-items: center; gap: 10px; font-size: 0.8rem; color: #555; margin-top: 10px;">
+                <input type="checkbox" id="showFarLocations" style="accent-color: #28a745;">
+                Show Results From Farther Locations
+            </label>
+        </div>        
+
+        <h2>LKQ Inventory</h2>
+        <ul>
+            {% for car in cars_lkq %}
+            <li
+                data-interest="{{ car.interest_level }}"
+                data-distance="near"
+            >
+                <strong>Location:</strong> {{ car.location|title }}<br>
+                <strong>Stock Number:</strong> {{ car.stock_num }}<br>
+                <strong>Year:</strong> {{ car.year }}<br>
+                <strong>Model:</strong> {{ car.model }}<br>
+                <strong>Color:</strong> {{ car.color }}<br>
+                <strong>Section:</strong> {{ car.section }}<br>
+                <strong>Row:</strong> {{ car.row }}<br>
+                <strong>Space:</strong> {{ car.space }}<br>
+                <strong>Date:</strong> {{ car.date }}<br>
+                <strong>VIN:</strong> {{ car.vin }}<br>
+                <div class="image-grid" id="image-grid-{{ car.stock_num }}">
+                    <object data="{{ car.image }}" type="image/png" onclick="showImage('{{ car.image }}')"></object>
+                    {% for image in car.image_urls %}
+                    <object data="{{ image }}" type="image/png" onclick="showImage('{{ image }}')"></object>
+                    {% endfor %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <h2>Pick-n-Pull Inventory</h2>
+        <ul>
+            {% for car in cars_picknpull %}
+            <li
+                data-interest="{{ car.interest_level }}"
+                data-distance="near"
+            >
+                <strong>Location:</strong> {{ car.location }}<br>
+                <strong>Year:</strong> {{ car.year }}<br>
+                <strong>Model:</strong> {{ car.model }}<br>
+                <strong>Trim:</strong> {{ car.trim }}<br>
+                <strong>Color:</strong> {{ car.color }}<br>
+                <strong>Engine:</strong> {{ car.engine }}<br>
+                <strong>Transmission:</strong> {{ car.transmission }}<br>
+                <strong>Row:</strong> {{ car.row }}<br>
+                <strong>Date:</strong> {{ car.date }}<br>
+                <strong>Stock Number:</strong> {{ car.stock_num }}<br>
+                <strong>VIN:</strong> {{ car.vin }}<br>
+                <object data="{{ car.image }}" type="image/png" onclick="showImage('{{ car.image }}')"></object>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <h2>Pull-A-Part Inventory</h2>
+        <ul>
+            {% for car in cars_pullapart %}
+            <li
+                data-interest="{{ car.interest_level }}"
+                data-distance="{% if car.location_id == 35 %}near{% else %}far{% endif %}"
+            >
+                <strong>Location:</strong> {{ car.location }}<br>
+                <strong>Year:</strong> {{ car.year }}<br>
+                <strong>Model:</strong> {{ car.model }}<br>
+                <strong>Trim:</strong> {{ car.trim }}<br>
+                <strong>Style:</strong> {{ car.style }}<br>
+                <strong>Color:</strong> {{ car.color }}<br>
+                <strong>Engine:</strong> {{ car.engine }}<br>
+                <strong>Transmission:</strong> {{ car.transmission }}<br>
+                <strong>Row:</strong> {{ car.row }}<br>
+                <strong>Date:</strong> {{ car.date }}<br>
+                <strong>Stock Number:</strong> {{ car.stock_num }}<br>
+                <strong>VIN:</strong> {{ car.vin }}<br>
+                <object data="{{ car.image }}" type="image/png" onclick="showImage('{{ car.image }}')"></object>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <h2>U Pull & Save Inventory</h2>
+        <ul>
+            {% for car in cars_upullandsave %}
+            <li
+                data-interest="{{ car.interest_level }}"
+                data-distance="near"
+            >
+                <strong>Year:</strong> {{ car.year }}<br>
+                <strong>Model:</strong> {{ car.model }}<br>
+                {% if car.series %}
+                <strong>Series:</strong> {{ car.series }}<br>
+                {% endif %}
+                <strong>Color:</strong> {{ car.color }}<br>
+                <strong>Row:</strong> {{ car.row }}<br>
+                <strong>Date:</strong> {{ car.date }}<br>
+                <strong>Stock Number:</strong> {{ car.stock_num }}<br>
+                <strong>VIN:</strong> {{ car.vin }}<br>
+                <div class="image-grid" id="image-grid-{{ car.stock_num }}">
+                    {% for image in car.image_urls %}
+                    <object data="{{ image }}" type="image/png" onclick="showImage('{{ image }}')"></object>
+                    {% endfor %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <h2>Jack's Used Auto Parts Inventory</h2>
+        <ul>
+            {% for car in cars_jacks %}
+            <li>
+                <strong>Year:</strong> {{ car.year }}<br>
+                <strong>Model:</strong> {{ car.model }}<br>
+                <strong>Color:</strong> {{ car.color }}<br>
+                <strong>Engine:</strong> {{ car.engine }}<br>
+                <strong>Row:</strong> {{ car.row }}<br>
+                <strong>Date:</strong> {{ car.date }}<br>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Link to the Utah page -->
+     <a href="{{ url_for('utah.index') }}" style="display: block; text-align: center; margin-top: 20px; color: #007bff; text-decoration: none;">View Utah Site</a>
+
+    <!-- Modal for full-size image display -->
+    <div id="myModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="fullSizeImg">
+    </div>
+
+    <!-- JavaScript to control modal display -->
+    <script>
+        function applyFilters() {
+            const showAllMercedes = document.getElementById('showAllMercedes').checked;
+            const showFarLocations = document.getElementById('showFarLocations').checked;
+
+            const allItems = document.querySelectorAll('ul > li');
+
+            allItems.forEach(item => {
+                const make = item.dataset.make || '';
+                const interest = parseInt(item.dataset.interest || '0');
+                const distance = item.dataset.distance || 'near';
+
+                let visible = true;
+
+                if (!showAllMercedes && make.toLowerCase() !== 'mercedes') {
+                    visible = interest > 0;
+                }
+
+                if (!showFarLocations && distance !== 'near') {
+                    visible = false;
+                }
+
+                item.style.display = visible ? 'block' : 'none';
+            });
+        }
+
+        document.getElementById('showAllMercedes').addEventListener('change', applyFilters);
+        document.getElementById('showFarLocations').addEventListener('change', applyFilters);
+
+        window.addEventListener('DOMContentLoaded', applyFilters);
+
+        function showImage(imageUrl) {
+            var modal = document.getElementById('myModal');
+            var img = document.getElementById('fullSizeImg');
+            img.src = imageUrl;
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            var modal = document.getElementById('myModal');
+            modal.style.display = "none";
+        }
+        // Function to check if the image URL is valid
+        function is_valid_image(url) {
+            var imgObj = new Image();
+            imgObj.src = url;
+            return imgObj.complete && imgObj.naturalWidth !== 0;
+        }
+    </script>
 </body>
 
 </html>
