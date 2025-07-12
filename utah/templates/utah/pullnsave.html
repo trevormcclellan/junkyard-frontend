@@ -230,9 +230,9 @@
 <body>
     <div class="container">
         <div class="nav-links">
-            <a href="{{ url_for('index') }}">Home</a>
-            <a href="{{ url_for('junkyard_page', yard_name='tearapart') }}">Search Tear A Part</a>
-            <a href="{{ url_for('junkyard_page', yard_name='utpap') }}">Search UTPAP</a>
+            <a href="{{ url_for('utah.index') }}">Home</a>
+            <a href="{{ url_for('utah.junkyard_page', yard_name='tearapart') }}">Search Tear A Part</a>
+            <a href="{{ url_for('utah.junkyard_page', yard_name='utpap') }}">Search UTPAP</a>
         </div>
         <h1>Search Pull-n-Save Inventory</h1>
         <!-- Dropdown for make selection -->
@@ -301,7 +301,7 @@
         document.getElementById('make').addEventListener('change', function () {
             var make = this.value;
             // Call API to get models based on selected make
-            fetch(`/api/models?make=${make}&yard_name={{ yard_name }}`)
+            fetch(`/utah/api/models?make=${make}&yard_name={{ yard_name }}`)
                 .then(response => response.json())
                 .then(data => {
                     var modelSelect = document.getElementById('model');
@@ -322,7 +322,7 @@
             var location = document.getElementById('location').value;
 
             // Call API to get search results
-            fetch(`/api/search?make=${make}&model=${model}&yard_name={{ yard_name }}&location=${location}`)
+            fetch(`/utah/api/search?make=${make}&model=${model}&yard_name={{ yard_name }}&location=${location}`)
                 .then(response => response.json())
                 .then(data => {
                     var resultsList = document.getElementById('results-list');
@@ -408,7 +408,7 @@
                         var imageGrid = document.createElement('div');
                         imageGrid.classList.add('image-grid');
                         try {
-                            const response = await fetch(`/api/images/pullnsave/${result.stock_num}/${location}`);
+                            const response = await fetch(`/utah/api/images/pullnsave/${result.stock_num}/${location}`);
                             const respJson = await response.json();
                             if (respJson.count) {
                                 const imageCount = respJson.count;

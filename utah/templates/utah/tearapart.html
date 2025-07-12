@@ -230,9 +230,9 @@
 <body>
     <div class="container">
         <div class="nav-links">
-            <a href="{{ url_for('index') }}">Home</a>
-            <a href="{{ url_for('junkyard_page', yard_name='utpap') }}">Search UTPAP</a>
-            <a href="{{ url_for('junkyard_page', yard_name='pullnsave') }}">Search Pull-n-Save</a>
+            <a href="{{ url_for('utah.index') }}">Home</a>
+            <a href="{{ url_for('utah.junkyard_page', yard_name='utpap') }}">Search UTPAP</a>
+            <a href="{{ url_for('utah.junkyard_page', yard_name='pullnsave') }}">Search Pull-n-Save</a>
         </div>
         <h1>Search Tear A Part Inventory</h1>
         <!-- Dropdown for make selection -->
@@ -294,7 +294,7 @@
         document.getElementById('make').addEventListener('change', function () {
             var make = this.value;
             // Call API to get models based on selected make
-            fetch(`/api/models?make=${make}&yard_name={{ yard_name }}`)
+            fetch(`/utah/api/models?make=${make}&yard_name={{ yard_name }}`)
                 .then(response => response.json())
                 .then(data => {
                     var modelSelect = document.getElementById('model');
@@ -314,7 +314,7 @@
             var model = document.getElementById('model').value;
 
             // Call API to get search results
-            fetch(`/api/search?make=${make}&model=${model}&yard_name={{ yard_name }}`)
+            fetch(`/utah/api/search?make=${make}&model=${model}&yard_name={{ yard_name }}`)
                 .then(response => response.json())
                 .then(data => {
                     var resultsList = document.getElementById('results-list');

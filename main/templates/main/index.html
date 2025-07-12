@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Inventory</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='safari-pinned-tab.svg') }}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f3f3f3;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+
+        li object {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px auto;
+            cursor: pointer;
+        }
+
+        /* Styles for tiled images */
+        .image-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .image-grid object {
+            width: 200px;
+            height: 200px;
+            display: block;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .close {
+            color: #ddd;
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            font-size: 30px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Responsive styling for the modal image */
+        img.modal-content {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Use -webkit-fill-available for portrait mode */
+        @media (orientation: portrait) {
+            img.modal-content {
+                width: -webkit-fill-available;
+                height: auto;
+            }
+        }
+
+        /* Use -webkit-fill-available for landscape mode */
+        @media (orientation: landscape) {
+            img.modal-content {
+                height: -webkit-fill-available;
+                width: auto;
+            }
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .nav-links a {
+            margin-right: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #28a745;
+            /* Bootstrap green color */
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #218838;
+            /* Darker green for hover effect */
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    Hi!
+</body>
+
+</html>
