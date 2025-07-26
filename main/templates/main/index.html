@@ -35,11 +35,10 @@
             margin-bottom: 20px;
         }
 
-        h2 {
+        .inventory-header {
             font-size: 1.2rem;
             color: #555;
-            margin-top: 30px;
-            margin-bottom: 10px;
+            font-weight: bold;
         }
 
         ul {
@@ -259,120 +258,130 @@
             </label>
         </div>        
 
-        <h2>LKQ Inventory</h2>
-        <ul>
-            {% for car in cars_lkq %}
-            <li
-                data-interest="{{ car.interest_level }}"
-                data-distance="near"
-            >
-                <strong>Location:</strong> {{ car.location|title }}<br>
-                <strong>Stock Number:</strong> {{ car.stock_num }}<br>
-                <strong>Year:</strong> {{ car.year }}<br>
-                <strong>Model:</strong> {{ car.model }}<br>
-                <strong>Color:</strong> {{ car.color }}<br>
-                <strong>Section:</strong> {{ car.section }}<br>
-                <strong>Row:</strong> {{ car.row }}<br>
-                <strong>Space:</strong> {{ car.space }}<br>
-                <strong>Date:</strong> {{ car.date }}<br>
-                <strong>VIN:</strong> {{ car.vin }}<br>
-                <div class="image-grid" id="image-grid-{{ car.stock_num }}">
+        <details open>
+            <summary><span class="inventory-header">LKQ Inventory</span></summary>
+            <ul>
+                {% for car in cars_lkq %}
+                <li
+                    data-interest="{{ car.interest_level }}"
+                    data-distance="near"
+                >
+                    <strong>Location:</strong> {{ car.location|title }}<br>
+                    <strong>Stock Number:</strong> {{ car.stock_num }}<br>
+                    <strong>Year:</strong> {{ car.year }}<br>
+                    <strong>Model:</strong> {{ car.model }}<br>
+                    <strong>Color:</strong> {{ car.color }}<br>
+                    <strong>Section:</strong> {{ car.section }}<br>
+                    <strong>Row:</strong> {{ car.row }}<br>
+                    <strong>Space:</strong> {{ car.space }}<br>
+                    <strong>Date:</strong> {{ car.date }}<br>
+                    <strong>VIN:</strong> {{ car.vin }}<br>
+                    <div class="image-grid" id="image-grid-{{ car.stock_num }}">
+                        <object data="{{ car.image }}" type="image/png" onclick="showImage('{{ car.image }}')"></object>
+                        {% for image in car.image_urls %}
+                        <object data="{{ image }}" type="image/png" onclick="showImage('{{ image }}')"></object>
+                        {% endfor %}
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </details>
+
+        <details open>
+        <summary><span class="inventory-header">Pick-n-Pull Inventory</span></summary>
+            <ul>
+                {% for car in cars_picknpull %}
+                <li
+                    data-interest="{{ car.interest_level }}"
+                    data-distance="near"
+                >
+                    <strong>Location:</strong> {{ car.location }}<br>
+                    <strong>Year:</strong> {{ car.year }}<br>
+                    <strong>Model:</strong> {{ car.model }}<br>
+                    <strong>Trim:</strong> {{ car.trim }}<br>
+                    <strong>Color:</strong> {{ car.color }}<br>
+                    <strong>Engine:</strong> {{ car.engine }}<br>
+                    <strong>Transmission:</strong> {{ car.transmission }}<br>
+                    <strong>Row:</strong> {{ car.row }}<br>
+                    <strong>Date:</strong> {{ car.date }}<br>
+                    <strong>Stock Number:</strong> {{ car.stock_num }}<br>
+                    <strong>VIN:</strong> {{ car.vin }}<br>
                     <object data="{{ car.image }}" type="image/png" onclick="showImage('{{ car.image }}')"></object>
-                    {% for image in car.image_urls %}
-                    <object data="{{ image }}" type="image/png" onclick="showImage('{{ image }}')"></object>
-                    {% endfor %}
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
+                </li>
+                {% endfor %}
+            </ul>
+        </details>
 
-        <h2>Pick-n-Pull Inventory</h2>
-        <ul>
-            {% for car in cars_picknpull %}
-            <li
-                data-interest="{{ car.interest_level }}"
-                data-distance="near"
-            >
-                <strong>Location:</strong> {{ car.location }}<br>
-                <strong>Year:</strong> {{ car.year }}<br>
-                <strong>Model:</strong> {{ car.model }}<br>
-                <strong>Trim:</strong> {{ car.trim }}<br>
-                <strong>Color:</strong> {{ car.color }}<br>
-                <strong>Engine:</strong> {{ car.engine }}<br>
-                <strong>Transmission:</strong> {{ car.transmission }}<br>
-                <strong>Row:</strong> {{ car.row }}<br>
-                <strong>Date:</strong> {{ car.date }}<br>
-                <strong>Stock Number:</strong> {{ car.stock_num }}<br>
-                <strong>VIN:</strong> {{ car.vin }}<br>
-                <object data="{{ car.image }}" type="image/png" onclick="showImage('{{ car.image }}')"></object>
-            </li>
-            {% endfor %}
-        </ul>
+        <details open>
+        <summary><span class="inventory-header">Pull-A-Part Inventory</span></summary>
+            <ul>
+                {% for car in cars_pullapart %}
+                <li
+                    data-interest="{{ car.interest_level }}"
+                    data-distance="{% if car.location_id == 35 %}near{% else %}far{% endif %}"
+                >
+                    <strong>Location:</strong> {{ car.location }}<br>
+                    <strong>Year:</strong> {{ car.year }}<br>
+                    <strong>Model:</strong> {{ car.model }}<br>
+                    <strong>Trim:</strong> {{ car.trim }}<br>
+                    <strong>Style:</strong> {{ car.style }}<br>
+                    <strong>Color:</strong> {{ car.color }}<br>
+                    <strong>Engine:</strong> {{ car.engine }}<br>
+                    <strong>Transmission:</strong> {{ car.transmission }}<br>
+                    <strong>Row:</strong> {{ car.row }}<br>
+                    <strong>Date:</strong> {{ car.date }}<br>
+                    <strong>Stock Number:</strong> {{ car.stock_num }}<br>
+                    <strong>VIN:</strong> {{ car.vin }}<br>
+                    <object data="{{ car.image }}" type="image/png" onclick="showImage('{{ car.image }}')"></object>
+                </li>
+                {% endfor %}
+            </ul>
+        </details>
 
-        <h2>Pull-A-Part Inventory</h2>
-        <ul>
-            {% for car in cars_pullapart %}
-            <li
-                data-interest="{{ car.interest_level }}"
-                data-distance="{% if car.location_id == 35 %}near{% else %}far{% endif %}"
-            >
-                <strong>Location:</strong> {{ car.location }}<br>
-                <strong>Year:</strong> {{ car.year }}<br>
-                <strong>Model:</strong> {{ car.model }}<br>
-                <strong>Trim:</strong> {{ car.trim }}<br>
-                <strong>Style:</strong> {{ car.style }}<br>
-                <strong>Color:</strong> {{ car.color }}<br>
-                <strong>Engine:</strong> {{ car.engine }}<br>
-                <strong>Transmission:</strong> {{ car.transmission }}<br>
-                <strong>Row:</strong> {{ car.row }}<br>
-                <strong>Date:</strong> {{ car.date }}<br>
-                <strong>Stock Number:</strong> {{ car.stock_num }}<br>
-                <strong>VIN:</strong> {{ car.vin }}<br>
-                <object data="{{ car.image }}" type="image/png" onclick="showImage('{{ car.image }}')"></object>
-            </li>
-            {% endfor %}
-        </ul>
+        <details open>
+            <summary><span class="inventory-header">U Pull & Save Inventory</span></summary>
+            <ul>
+                {% for car in cars_upullandsave %}
+                <li
+                    data-interest="{{ car.interest_level }}"
+                    data-distance="near"
+                >
+                    <strong>Year:</strong> {{ car.year }}<br>
+                    <strong>Model:</strong> {{ car.model }}<br>
+                    {% if car.series %}
+                    <strong>Series:</strong> {{ car.series }}<br>
+                    {% endif %}
+                    <strong>Color:</strong> {{ car.color }}<br>
+                    <strong>Row:</strong> {{ car.row }}<br>
+                    <strong>Date:</strong> {{ car.date }}<br>
+                    <strong>Stock Number:</strong> {{ car.stock_num }}<br>
+                    <strong>VIN:</strong> {{ car.vin }}<br>
+                    <div class="image-grid" id="image-grid-{{ car.stock_num }}">
+                        {% for image in car.image_urls %}
+                        <object data="{{ image }}" type="image/png" onclick="showImage('{{ image }}')"></object>
+                        {% endfor %}
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </details>
 
-        <h2>U Pull & Save Inventory</h2>
-        <ul>
-            {% for car in cars_upullandsave %}
-            <li
-                data-interest="{{ car.interest_level }}"
-                data-distance="near"
-            >
-                <strong>Year:</strong> {{ car.year }}<br>
-                <strong>Model:</strong> {{ car.model }}<br>
-                {% if car.series %}
-                <strong>Series:</strong> {{ car.series }}<br>
-                {% endif %}
-                <strong>Color:</strong> {{ car.color }}<br>
-                <strong>Row:</strong> {{ car.row }}<br>
-                <strong>Date:</strong> {{ car.date }}<br>
-                <strong>Stock Number:</strong> {{ car.stock_num }}<br>
-                <strong>VIN:</strong> {{ car.vin }}<br>
-                <div class="image-grid" id="image-grid-{{ car.stock_num }}">
-                    {% for image in car.image_urls %}
-                    <object data="{{ image }}" type="image/png" onclick="showImage('{{ image }}')"></object>
-                    {% endfor %}
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
-
-        <h2>Jack's Used Auto Parts Inventory</h2>
-        <a href="https://www.youtube.com/@jacksusedautoparts">Jack's Used Auto Parts YouTube</a>
-        <ul>
-            {% for car in cars_jacks %}
-            <li>
-                <strong>Year:</strong> {{ car.year }}<br>
-                <strong>Model:</strong> {{ car.model }}<br>
-                <strong>Color:</strong> {{ car.color }}<br>
-                <strong>Engine:</strong> {{ car.engine }}<br>
-                <strong>Row:</strong> {{ car.row }}<br>
-                <strong>Date:</strong> {{ car.date }}<br>
-            </li>
-            {% endfor %}
-        </ul>
+        <details open>
+            <summary><span class="inventory-header">Jack's Used Auto Parts Inventory</span></summary>
+            <a href="https://www.youtube.com/@jacksusedautoparts">Jack's Used Auto Parts YouTube</a>
+            <ul>
+                {% for car in cars_jacks %}
+                <li>
+                    <strong>Year:</strong> {{ car.year }}<br>
+                    <strong>Model:</strong> {{ car.model }}<br>
+                    <strong>Color:</strong> {{ car.color }}<br>
+                    <strong>Engine:</strong> {{ car.engine }}<br>
+                    <strong>Row:</strong> {{ car.row }}<br>
+                    <strong>Date:</strong> {{ car.date }}<br>
+                </li>
+                {% endfor %}
+            </ul>
+        </details>
     </div>
 
     <!-- Link to the Utah page -->
