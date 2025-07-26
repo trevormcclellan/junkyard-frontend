@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify
 from config import *
-# from .services import tearapart, pullnsave
+from .services import lkq
 from pymongo import MongoClient
 import requests
 
@@ -32,4 +32,19 @@ def junkyard_page(yard_name):
     models = []
     return render_template(f'main/{yard_name}.html', yard_name=yard_name, makes=makes, models=models, results=[])
 
-# Add other routes and logic specific to your new region
+@main_bp.route('/api/search', methods=['GET'])
+def search_inventory():
+    results = []
+    yard_name = request.args.get('yard_name')
+    if yard_name == 'lkq':
+        query = request.args.get('query')
+        location = request.args.get('location')
+        results = lkq.search_inventory(query, location)
+
+    else:
+        make = request.args.get('make')
+        model = request.args.get('model')
+        location = request.args.get('location') if 'location' in request.args else None
+    # Fetch inventory search results
+    # results = search_inventory_from_api(make, model, yard_name, location)
+    return jsonify({'results': results})
