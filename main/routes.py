@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify
 from config import *
-from .services import lkq, picknpull
+from .services import lkq, picknpull, pullapart
 from pymongo import MongoClient
 import requests
 
@@ -19,10 +19,14 @@ def get_makes_from_api(yard_name):
         return [] # LKQ does not have a makes endpoint, so we return an empty list
     elif yard_name == 'picknpull':
         return picknpull.get_makes()
+    elif yard_name == 'pullapart':
+        return pullapart.get_makes()
 
-def get_models_from_api(make, yard_name):
+def get_models_from_api(make, yard_name, location=None):
     if yard_name == 'picknpull':
         return picknpull.get_models(make)
+    elif yard_name == 'pullapart':
+        return pullapart.get_models(make, location)
 
 @main_bp.route('/')
 def index():
@@ -45,8 +49,9 @@ def junkyard_page(yard_name):
 def get_models():
     make = request.args.get('make')
     yard_name = request.args.get('yard_name')
+    location = request.args.get('location')
     # Fetch and return models based on selected make
-    models = get_models_from_api(make, yard_name)
+    models = get_models_from_api(make, yard_name, location)
     return jsonify({'models': models})
 
 @main_bp.route('/api/search', methods=['GET'])
@@ -63,5 +68,11 @@ def search_inventory():
         make = request.args.get('make')
         model = request.args.get('model')
         results = picknpull.search_inventory(make, model)
+
+    elif yard_name == 'pullapart':
+        make = request.args.get('make')
+        model = request.args.get('model')
+        location = request.args.get('location')
+        results = pullapart.search_inventory(make, model, location)
 
     return jsonify({'results': results})
