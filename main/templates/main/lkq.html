@@ -363,6 +363,11 @@
     </div>
 
     <script>
+        function toggleMenu() {
+            var navLinks = document.getElementById("navLinks");
+            navLinks.classList.toggle("show");
+        }
+        
         function showImage(imageUrl) {
             var modal = document.getElementById('myModal');
             var img = document.getElementById('fullSizeImg');
