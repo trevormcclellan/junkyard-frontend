@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify
 from config import *
-from .services import lkq, picknpull, pullapart
+from .services import lkq, picknpull, pullapart, upullandsave
 from pymongo import MongoClient
 import requests
 
@@ -21,12 +21,16 @@ def get_makes_from_api(yard_name):
         return picknpull.get_makes()
     elif yard_name == 'pullapart':
         return pullapart.get_makes()
+    elif yard_name == 'upullandsave':
+        return upullandsave.get_makes()
 
 def get_models_from_api(make, yard_name, location=None):
     if yard_name == 'picknpull':
         return picknpull.get_models(make)
     elif yard_name == 'pullapart':
         return pullapart.get_models(make, location)
+    elif yard_name == 'upullandsave':
+        return upullandsave.get_models(make, location)
 
 @main_bp.route('/')
 def index():
@@ -74,5 +78,11 @@ def search_inventory():
         model = request.args.get('model')
         location = request.args.get('location')
         results = pullapart.search_inventory(make, model, location)
+
+    elif yard_name == 'upullandsave':
+        make = request.args.get('make')
+        model = request.args.get('model')
+        location = request.args.get('location')
+        results = upullandsave.search_inventory(make, model, location)
 
     return jsonify({'results': results})
