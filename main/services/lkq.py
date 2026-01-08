@@ -12,10 +12,10 @@ def fetch_page(page, query, location):
         return None
     yard_id = YARD_IDS[yard]
 
-    url = f"https://www.lkqpickyourpart.com/DesktopModules/pyp_vehicleInventory/getVehicleInventory.aspx?page={page}&filter={query}&store={yard_id}"
+    url = f"https://www.pyp.com/DesktopModules/pyp_vehicleInventory/getVehicleInventory.aspx?page={page}&filter={query}&store={yard_id}"
     payload = {}
     headers = {
-        'referer': f'https://www.lkqpickyourpart.com/inventory/{yard}-{yard_id}/?search={query}'
+        'referer': f'https://www.pyp.com/inventory/{yard}-{yard_id}/?search={query}'
     }
 
     response = requests.get(url, headers=headers, params=payload)
