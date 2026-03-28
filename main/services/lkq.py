@@ -12,9 +12,10 @@ def fetch_page(page, query, location):
         return None
     yard_id = YARD_IDS[yard]
 
-    url = f"https://www.pyp.com/DesktopModules/pyp_vehicleInventory/getVehicleInventory.aspx?page={page}&filter={query}&store={yard_id}"
+    url = f"http://cloudflare-bypass:8000/DesktopModules/pyp_vehicleInventory/getVehicleInventory.aspx?page={page}&filter={query}&store={yard_id}"
     payload = {}
     headers = {
+        'x-hostname': f'https://www.pyp.com',
         'referer': f'https://www.pyp.com/inventory/{yard}-{yard_id}/?search={query}'
     }
 
