@@ -359,7 +359,7 @@
                     <strong>VIN:</strong> {{ car.vin }}<br>
                     <div class="image-grid" id="image-grid-{{ car.stock_num }}">
                         {% for image in car.image_urls %}
-                        <object data="{{ image }}" type="image/png" onclick="showImage('{{ image }}')"></object>
+                        <object referrerpolicy="no-referrer" data="{{ image }}" type="image/png" onclick="showImage('{{ image }}')"></object>
                         {% endfor %}
                     </div>
                 </li>
