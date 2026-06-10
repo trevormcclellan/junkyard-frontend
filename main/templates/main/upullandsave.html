@@ -323,7 +323,7 @@
             <option>Select Make</option>
             <!-- Dynamically populated options -->
             {% for make in makes %}
-            <option>{{ make.make }}</option>
+            <option>{{ make.name }}</option>
             {% endfor %}
         </select>
 
@@ -388,7 +388,7 @@
                         modelSelect.appendChild(option);
                     data.models.forEach(function (model) {
                         option = document.createElement('option');
-                        option.text = model.model;
+                        option.text = model.name;
                         modelSelect.appendChild(option);
                     });
                 });
@@ -490,6 +490,15 @@
                         li.appendChild(vinValue);
                         li.appendChild(document.createElement('br'));
 
+                        // Create the notes line
+                        var notes = document.createElement('strong');
+                        notes.textContent = 'Notes: ';
+                        var notesValue = document.createElement('span');
+                        notesValue.textContent = result.notes;
+                        li.appendChild(notes);
+                        li.appendChild(notesValue);
+                        li.appendChild(document.createElement('br'));
+
                         // Add the images section
                         var imageGrid = document.createElement('div');
                         imageGrid.classList.add('image-grid');
@@ -497,6 +506,7 @@
                         imageUrls = result.image_urls || [];
                         imageUrls.forEach(function (imageUrl) {
                             var img = document.createElement('object');
+                            img.setAttribute('referrerpolicy', 'no-referrer');
                             img.data = imageUrl;
                             img.type = 'image/jpeg';
                             img.addEventListener('click', function () {
